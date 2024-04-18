@@ -15,16 +15,21 @@ collection = db.ProjectCollection
 
 
 # assuming you have defined a connection to your db and collection already:
-
+for (root, dirs, file) in os.walk('/workspace/ds2002-dp2-fork/data/'):
+    for f in file:
+        print(f)
 
 
 # so basically I need to go through all of the json files and say for each of these files open them 
 # and import them into the collection
 for (root, dirs, file) in os.walk('/workspace/ds2002-dp2-fork/data/'):
-    for f in file:
-        with open('generated01.json') as file:
-            file_data = json.load(file)
-            if isinstance(file_data, list):
-                collection.insert_many(file_data)  
-            else:
-                collection.insert_one(file_data)
+    try:
+        for i in file:
+            with open(i) as f:
+                file_data = json.load(f)
+                if isinstance(file_data, list):
+                    collection.insert_many(file_data)  
+                else:
+                    collection.insert_one(file_data)
+    except:
+        pass
