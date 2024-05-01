@@ -37,5 +37,5 @@ for filename in os.listdir(directory):
 
 print(collection.count_documents({}), 'documents were successfully imported into my collection.')
 print('Closer look at generated39.json - there are six documents in this JSON, 1 is corrupted.')
-print('The corrupted file keeps the other five from being importated, despite all five being complete.')
+print('The corrupted file keeps the other five from being imported, despite all five being complete.')
 
