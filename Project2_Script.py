@@ -13,35 +13,29 @@ db = client.project2db
 
 collection = db.ProjectCollection
 
+import os
 
-# assuming you have defined a connection to your db and collection already:
-for (root, dirs, file) in os.walk('/workspace/ds2002-dp2-fork/data/'):
-    try:
-        for f in file:
-            with open (f) as file:
-                file_data = json.load(file)
-                print(file_data)
-    except:
-        pass
+directory = '/workspace/ds2002-dp2-fork/data/'
+
 
 for filename in os.listdir(directory):
-  with open(os.path.join(directory, filename)) as f:
-    print(f)
-    
-# so basically I need to go through all of the json files and say for each of these files open them 
-# and import them into the collection
-for (root, dirs, file) in os.walk('/workspace/ds2002-dp2-fork/data/'):
-    try:
-        for i in files:
-            with open(i) as file:
-                file_data = json.load(file)
-        if isinstance(file_data, list):
-            collection.insert_many(file_data)  
-        else:
-            collection.insert_one(file_data)
-    except:
-        pass
+    with open(os.path.join(directory, filename)) as f:
+        try:
+            file_data = json.load(f)
+            if isinstance(file_data, list):
+                try:
+                    collection.insert_many(file_data)
+                except:
+                    pass
+            else:
+                try:
+                    collection.insert_one(file_data)
+                except:
+                    pass
+        except:
+            print(filename, 'could not be imported. Check JSON for corruption.')
 
-print(collection.data.find())
-print(db.collection.count_documents({}))
+print(collection.count_documents({}), 'documents were successfully imported into my collection.')
+print('Closer look at generated39.json - there are six documents in this JSON, 1 is corrupted.')
+print('The corrupted file keeps the other five from being importated, despite all five being complete.')
 
